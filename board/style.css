@@ -1,0 +1,148 @@
+
+
+body {
+	background-color: silver;
+	color: white;
+	margin: 0px;
+}
+
+header {
+	background-color: pink;
+	color: red;
+	text-align: center;
+	padding: 4px;
+}
+
+.container {
+	text-align: center;
+	background-color: #303135;
+	margin: 0 auto;
+	width: fit-content;
+	padding: 10px 30px;
+}
+
+form {
+	margin: 0px auto;
+	padding: 0px 10px;
+	width: 400px;
+	text-align: left;
+	display: inline-flex;
+	justify-content: space-between;
+	border-bottom: 1px solid grey;
+}
+
+form div{
+	margin: 10px;
+	align-self: center;
+}
+
+.add__comment {
+	width: 70%;
+}
+
+input, textarea {	
+    border: 1px solid #81bbaa;
+    border-radius: 4px;
+    width: 100%;
+}
+
+input {
+	width: 50%;
+}
+.add__comment .desc {
+	font-weight: bold;
+
+}
+
+div.add__btn {
+	align-self: flex-end;
+	margin: 10px;
+}
+
+.add__btn button {
+	background-color: #2ead9e;
+	border: 1px solid darkcyan;
+	border-radius: 4px;
+	padding: 5px 10px; 
+    margin: 0px 10px 15px;
+	color: white;
+	transition: 0.3s;
+}
+
+.add__btn button:hover {
+	transform: scale(1.2);
+	cursor: pointer;
+}
+
+.add__btn button:active {
+	transform: none;
+}
+
+.comments {
+	background-color: #8c8c8c;
+	color: wheat;
+}
+
+.comment {
+	margin: 10px 0px;	
+	display: flex;
+	height: 80px;
+	align-items: center;
+}
+
+.icon {
+	border: 0.5px solid grey;
+	height: 60px;
+	width: 60px;
+	border-radius: 50%;
+	background-color: wheat;
+	margin: 0px 10px;
+}
+
+.comment__details {
+	text-align: left;
+	width: 400px;
+}
+
+.first__row {
+	display: inline-flex;
+	align-items: center;
+}
+
+.nickname {
+	padding-bottom: 5px;
+	font-size: 16px;
+	color: white;
+	max-width: 200px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.created__at {
+	font-size: 12px;
+	color: #5dffe9b8;
+}
+
+.second__row div {
+	padding-left: 10px;
+	color: #ffd371;	
+	max-width: 350px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+a {
+}
+.edit__btn {
+	background: url(./pen.png);
+	background-size: contain;
+	height: 10px;
+	width: 10px;
+}
+
+.delete__btn {
+	background-image: url(./trash.png);
+	background-size: contain;
+	height: 10px;
+	width: 10px;
+}
