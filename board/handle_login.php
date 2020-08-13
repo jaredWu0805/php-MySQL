@@ -1,4 +1,5 @@
 <?php
+	session_start();
 	require_once('conn.php');
 
 	$username = trim($_POST['username']);
@@ -23,7 +24,7 @@
 	
 	if ($result->num_rows){
 		echo 'Successfully login';
-		setcookie('username', $username, time() + 36000);
+		$_SESSION['username'] = $username;
 		header('Location: ./index.php');		
 	} else {
 		header('Location: ./login.php?errCode=3');

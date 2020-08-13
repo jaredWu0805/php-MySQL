@@ -1,24 +1,21 @@
 <?php	
+	session_start();
 	require_once('conn.php'); 
+	require_once('utils.php');
+	
+	// Get user info from session
+	$username = NULL;
+	$nickname = NULL;
+	
+	if (!empty($_SESSION['username'])) {
+		$username = $_SESSION['username'];
+		$nickname = getNicknameByUsername($username);
+	} 	
+
+	// Get comments
 	$selectSQL = "SELECT * from comments ORDER BY created_at DESC";
 	$result = $conn->query($selectSQL);
 	if (!$result) die('Cannot get data from DB' . $conn->error);
-	$username = NULL;
-	$nickname = NULL;
-	if (!empty($_COOKIE['username'])){
-		$username = $_COOKIE['username'];
-		
-		$getNicknameSQL = sprintf("
-			SELECT nickname from users WHERE username='%s'",
-			$username
-		);
-
-		$nicknameResult = $conn->query($getNicknameSQL);
-		if ($row = $nicknameResult->fetch_assoc()) {
-			$nickname = $row['nickname'];
-		}
-	} 	
-
 ?>
 <!DOCTYPE html>
 <html>
@@ -34,6 +31,7 @@
 		<section class="add__section">
 			<div class="login__btns">
 				<?php if (!empty($username)) {?>
+					<div class='username'> 使用者：<?php echo $username; ?> </div>
 					<a class="logout__btn" href="./logout.php">登出</a>
 				<?php } else { ?>
 					<a class="register__btn" href="./register.php">註冊</a>
@@ -59,7 +57,7 @@
 							"; 
 						?>
 						<div> 有什麼想說的嗎? </div>
-						<div class="text__container"><textarea name="content" rows="8" placeholder="請輸入您的留言.." required></textarea></div>
+						<div class="text__container"><textarea name="content" rows="6" placeholder="請輸入您的留言.." required></textarea></div>
 					</div>
 					<div class="add__btn"><button>送出</button></div>
 				</form>	
