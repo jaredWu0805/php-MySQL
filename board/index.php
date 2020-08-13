@@ -1,8 +1,24 @@
 <?php	
 	require_once('conn.php'); 
-	$selectSQL = "SELECT * from comments ORDER BY created_at ASC";
+	$selectSQL = "SELECT * from comments ORDER BY created_at DESC";
 	$result = $conn->query($selectSQL);
 	if (!$result) die('Cannot get data from DB' . $conn->error);
+	$username = NULL;
+	$nickname = NULL;
+	if (!empty($_COOKIE['username'])){
+		$username = $_COOKIE['username'];
+		
+		$getNicknameSQL = sprintf("
+			SELECT nickname from users WHERE username='%s'",
+			$username
+		);
+
+		$nicknameResult = $conn->query($getNicknameSQL);
+		if ($row = $nicknameResult->fetch_assoc()) {
+			$nickname = $row['nickname'];
+		}
+	} 	
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -16,6 +32,14 @@
 	<header>注意!本站為練習用網站，並未實作資安的部分，請勿輸入任何真實的帳號與密碼</header>
 	<div class="container">
 		<section class="add__section">
+			<div class="login__btns">
+				<?php if (!empty($username)) {?>
+					<a class="logout__btn" href="./logout.php">登出</a>
+				<?php } else { ?>
+					<a class="register__btn" href="./register.php">註冊</a>
+					<a class="login__btn" href="./login.php">登入</a>
+				<?php } ?>
+			</div>
 			<h1>留言板</h1>
 			<?php
 				if (!empty($_GET['errCode'])) {
@@ -25,15 +49,23 @@
 					}
 				}
 			?>
-			<form method="POST" action="addPost.php">
-				<div class="add__comment">
-					<div class="desc">您的暱稱</div>
-					<div><input name="nickname" placeholder="請輸入您的暱稱.." required/></div>
-					<div class="desc"> 有什麼想說的嗎? </div>
-					<div><textarea name="content" rows="8" placeholder="請輸入您的留言.." required></textarea></div>
-				</div>
-				<div class="add__btn"><button>送出</button></div>
-			</form>		
+			<?php if (!empty($username)) {?>
+				<form method="POST" action="addPost.php">
+					<div class="add__comment">
+						<?php
+							echo "
+								<div>Hi！". $nickname ."</div>
+								<input type='hidden' name='nickname' value='". $nickname ."'>
+							"; 
+						?>
+						<div> 有什麼想說的嗎? </div>
+						<div class="text__container"><textarea name="content" rows="8" placeholder="請輸入您的留言.." required></textarea></div>
+					</div>
+					<div class="add__btn"><button>送出</button></div>
+				</form>	
+			<?php } else { ?>
+				<div class="desc"> 請先登入帳號</div>
+			<?php }?>
 		</section>
 		<section class="comments">
 			<?php

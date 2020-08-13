@@ -1,4 +1,3 @@
-<html style="white-space: pre">
 <?php
 	require_once('conn.php');
 

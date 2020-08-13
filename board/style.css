@@ -12,8 +12,13 @@ header {
 	text-align: center;
 	padding: 4px;
 }
+
+.add__section {
+	position: relative;
+	border-bottom: 1px solid grey;
+}
+
 .add__section h1 {
-	padding-left: 20px;
 }
 .container {
 	background-color: #303135;
@@ -23,22 +28,19 @@ header {
 }
 
 form {
-	margin: 0px auto;
-	padding: 0px 10px;
+	margin: 0px auto 10px;
 	width: 500px;
 	text-align: left;
 	display: inline-flex;
 	justify-content: space-between;
-	border-bottom: 1px solid grey;
-}
-
-form div{
-	margin: 0px 5px 10px;
-	align-self: center;
 }
 
 .add__comment {
-	width: 70%;
+	width: 350px;
+}
+
+.add__comment div {
+	margin: 8px 0px 0px;
 }
 
 input, textarea {	
@@ -51,10 +53,12 @@ input, textarea {
 	width: 50%;
 }
 
+.text__container {
+	display: flex;
+}
 
 div.add__btn {
 	align-self: flex-end;
-	margin: 10px;
 }
 
 .add__btn button {
@@ -62,19 +66,18 @@ div.add__btn {
 	border: 1px solid darkcyan;
 	border-radius: 4px;
 	padding: 8px 15px; 
-    margin: 0px 10px 15px;
 	color: white;
 	font-size: 16px;
 	transition: 0.3s;
 }
 
 .add__btn button:hover {
-	transform: scale(1.2);
+	background-color: darkcyan;
 	cursor: pointer;
 }
 
 .add__btn button:active {
-	transform: none;
+	transform: scale(0.8);
 }
 
 .comments {
@@ -162,6 +165,31 @@ div.add__btn {
 
 .warning {
 	color: #ff2525;
-	padding: 0px 0px 5px 20px;
+	padding: 0px 0px 5px 0px;
 
+}
+
+.login__btns {
+	position: absolute;
+	right: 0;
+	top: 12px;
+}
+
+.login__btns a {
+	background-color: #2ead9e;
+	border-radius: 4px;
+	margin: 5px;
+	padding: 5px 8px;
+	text-decoration: none;
+	color: white;
+	border: 1px solid darkcyan;
+	transition: 0.3s;
+}
+
+.login__btns a:hover {
+	background-color: darkcyan;
+}
+
+.desc {
+	margin: 10px 0px;
 }
