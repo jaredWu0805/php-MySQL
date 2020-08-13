@@ -10,11 +10,16 @@
 		die('欄位不能為空白');	
 	}
 
-	$addSQL = "INSERT INTO comments (nickname, content) VALUES ('$nickname', '$content')";
+	$addSQL = sprintf(
+		"INSERT INTO comments (nickname, content) 
+		VALUES ('%s', '%s')",
+		$nickname,
+		$content
+	);
 
 	$result = $conn->query($addSQL);
 	if (!$result) {
-		die('Failed to add comment' . $conn->error);
+		die('Failed to add comment<br>' . $conn->error);
 	}	
 	echo 'Successfully add comment';
 	header('Location: ./index.php');

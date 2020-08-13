@@ -1,3 +1,3 @@
 <?php
-	require_once('conn.php');
+	header('Location: index.php')
 ?>
