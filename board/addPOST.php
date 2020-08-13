@@ -1,8 +1,15 @@
+<html style="white-space: pre">
 <?php
 	require_once('conn.php');
 
-	$nickname= $_POST['nickname'];
-	$content = $_POST['content'];
+	$nickname= trim($_POST['nickname']);
+	$content = trim($_POST['content']);
+
+	if (empty($nickname) || empty($content)) {
+		header('Location: ./index.php?errCode=1');
+		die('欄位不能為空白');	
+	}
+
 	$addSQL = "INSERT INTO comments (nickname, content) VALUES ('$nickname', '$content')";
 
 	$result = $conn->query($addSQL);
@@ -12,3 +19,4 @@
 	echo 'Successfully add comment';
 	header('Location: ./index.php');
 ?>
+
