@@ -1,5 +1,3 @@
-
-
 body {
 	background-color: silver;
 	color: white;
@@ -18,8 +16,6 @@ header {
 	border-bottom: 1px solid grey;
 }
 
-.add__section h1 {
-}
 .container {
 	background-color: #303135;
 	margin: 0 auto;
@@ -84,6 +80,7 @@ div.add__btn {
 	margin-top: 10px;
 	background-color: #8c8c8c;
 	color: wheat;
+	width: 500px;
 }
 
 .comment {
@@ -172,9 +169,14 @@ div.add__btn {
 .login__btns {
 	position: absolute;
 	right: 0;
-	top: 12px;
+	
+	display: inline-flex;
 }
 
+.username {
+	align-self: center;
+	margin-right: 5px;
+}
 .login__btns a {
 	background-color: #2ead9e;
 	border-radius: 4px;

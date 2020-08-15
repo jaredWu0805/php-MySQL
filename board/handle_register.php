@@ -10,9 +10,16 @@
 		die('欄位不能為空白');	
 	}
 
+
+	$nickname = $conn->real_escape_string($nickname);
+	$username = $conn->real_escape_string($username);
+	$password = $conn->real_escape_string($password);
+
+	echo 'username: ' . $username;
+
 	// check if username exists
 	$selectSQL = sprintf( 
-		"SELECT * FROM users WHERE username='%s'",
+		"SELECT * FROM jaredWu0805_users WHERE username='%s'",
 		$username
 	);
 
@@ -25,7 +32,7 @@
 
 	// add user
 	$addSQL = sprintf(
-		"INSERT INTO users (nickname, username, password) 
+		"INSERT INTO jaredWu0805_users (nickname, username, password) 
 		VALUES ('%s', '%s', '%s')",
 		$nickname,
 		$username,

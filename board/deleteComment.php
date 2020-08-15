@@ -2,7 +2,7 @@
 	require_once('conn.php');
 
 	$id = $_GET['id'];
-	$delSQL = "DELETE FROM comments WHERE id=" . $id;
+	$delSQL = "DELETE FROM jaredWu0805_comments WHERE id=" . $id;
 
 	$result = $conn->query($delSQL);
 

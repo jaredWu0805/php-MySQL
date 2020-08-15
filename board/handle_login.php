@@ -1,4 +1,5 @@
 <?php
+	session_start();
 	require_once('conn.php');
 
 	$username = trim($_POST['username']);
@@ -9,8 +10,11 @@
 		die('欄位不能為空白');	
 	}
 
+	$username = $conn->real_escape_string($username);
+	$password = $conn->real_escape_string($password);
+
 	$selectSQL = sprintf( 
-		"SELECT * FROM users WHERE username='%s' and password='%s'",
+		"SELECT * FROM jaredWu0805_users WHERE username='%s' and password='%s'",
 		$username,
 		$password
 	);
@@ -23,7 +27,7 @@
 	
 	if ($result->num_rows){
 		echo 'Successfully login';
-		setcookie('username', $username, time() + 36000);
+		$_SESSION['username'] = $username;
 		header('Location: ./index.php');		
 	} else {
 		header('Location: ./login.php?errCode=3');
