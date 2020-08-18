@@ -25,7 +25,7 @@
 					}
 				}
 			?>
-			<form method="POST" action="handle_login.php">
+			<form class="general__form" method="POST" action="handle_login.php">
 				<div class="add__comment">
 					<div class="desc">您的帳號</div>
 					<div><input name="username" placeholder="請輸入您的帳號.." required/></div>

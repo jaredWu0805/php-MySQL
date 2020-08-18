@@ -25,7 +25,7 @@
 					}
 				}
 			?>
-			<form method="POST" action="handle_register.php">
+			<form class="general__form" method="POST" action="handle_register.php">
 				<div class="add__comment">
 					<div class="desc">您的暱稱</div>
 					<div><input name="nickname" placeholder="請輸入您的暱稱.." required/></div>

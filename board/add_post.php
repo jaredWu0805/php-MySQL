@@ -1,27 +1,27 @@
 <?php
+	session_start();
 	require_once('conn.php');
 
-	$nickname= trim($_POST['nickname']);
+	$username = $_SESSION['username'];
 	$content = trim($_POST['content']);
 
-	if (empty($nickname) || empty($content)) {
+	if (empty($username) || empty($content)) {
 		header('Location: ./index.php?errCode=1');
 		die('欄位不能為空白');	
 	}
 
-	$nickname = $conn->real_escape_string($nickname);
-	$content = $conn->real_escape_string($content);
+	$addSQL = "INSERT INTO jaredWu0805_comments (username, content) 
+		VALUES (?, ?)";
 
-	$addSQL = sprintf(
-		"INSERT INTO jaredWu0805_comments (nickname, content) 
-		VALUES ('%s', ' %s ')",
-		$nickname,
-		$content
-	);
+	$stmt = $conn->prepare($addSQL);
+	$stmt->bind_param('ss', $username, $content);
 
-	$result = $conn->query($addSQL);
+	if (!$stmt->execute()) {
+		echo "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
+	}
+	$result = $stmt->affected_rows;
 	if (!$result) {
-		die('Failed to add comment<br>' .$conn->error);
+		die('Failed to add user<br>' . $conn->error);
 	}	
 	echo 'Successfully add comment';
 	header('Location: index.php');

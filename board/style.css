@@ -1,3 +1,7 @@
+.hide {
+	display: none;
+}
+
 body {
 	background-color: silver;
 	color: white;
@@ -23,7 +27,7 @@ header {
 	padding: 10px 30px 30px;
 }
 
-form {
+.general__form {
 	margin: 0px auto 10px;
 	width: 500px;
 	text-align: left;
@@ -194,4 +198,29 @@ div.add__btn {
 
 .desc {
 	margin: 10px 0px;
+}
+
+.edit__nickname__btn {
+	background-color: #2ead9e;
+	border-radius: 4px;
+	margin: 5px;
+	padding: 4px 6px;
+	color: white;
+	border: 1px solid darkcyan;
+	transition: 0.3s;
+	cursor: pointer;
+}
+
+.update__nickname__btn:hover {
+	background-color: darkcyan;
+}
+
+.update__form div{
+	width: 200px;
+	margin-top: 5px;
+}
+
+.update {
+	margin: 0px;
+	margin-top: 8px;
 }
