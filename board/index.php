@@ -48,11 +48,11 @@
 				}
 			?>
 			<?php if (!empty($username)) {?>
-				<form method="POST" action="addPost.php">
+				<form method="POST" action="add_post.php">
 					<div class="add__comment">
 						<?php
 							echo "
-								<div>Hi！". escape($nickname) ."</div>
+								<div>Hi ". escape($nickname) ." !</div>
 								<input type='hidden' name='nickname' value='". escape($nickname) ."'>
 							"; 
 						?>
@@ -76,8 +76,8 @@
 								<div class='nickname'>". escape($row['nickname']) ."</div>
 								<div class='created__at'>。". $row['created_at'] ."</div>
 								<div class='btns'>
-									<a href='./editComment.php?id=". $row['id'] ."' class='edit__btn' title='edit'></a>
-									<a href='./deleteComment.php?id=". $row['id'] ."' class='delete__btn' title='delete'></a>
+									<a href='./edit_comment.php?id=". $row['id'] ."' class='edit__btn' title='edit'></a>
+									<a href='./delete_comment.php?id=". $row['id'] ."' class='delete__btn' title='delete'></a>
 								</div>
 							</div>
 							<div class='second__row'>

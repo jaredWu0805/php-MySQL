@@ -1,6 +1,6 @@
 <?php
 	require_once('conn.php');
-
+	session_start();
 	$nickname= trim($_POST['nickname']);
 	$username = trim($_POST['username']);
 	$password = trim($_POST['password']);
@@ -10,40 +10,34 @@
 		die('欄位不能為空白');	
 	}
 
-
-	$nickname = $conn->real_escape_string($nickname);
-	$username = $conn->real_escape_string($username);
-	$password = $conn->real_escape_string($password);
-
-	echo 'username: ' . $username;
+	$password = password_hash($password, PASSWORD_DEFAULT);
 
 	// check if username exists
-	$selectSQL = sprintf( 
-		"SELECT * FROM jaredWu0805_users WHERE username='%s'",
-		$username
-	);
+	$stmt = $conn->prepare("SELECT * FROM jaredWu0805_users WHERE username=?");
+	$stmt->bind_param('s', $username);
+	if (!$stmt->execute()) {
+		echo "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
+	}
+	$mysqlGetUsers = $stmt->get_result();
 
-	$mysqlGetUsers = $conn->query($selectSQL);
-	
 	while($row = $mysqlGetUsers->fetch_assoc()){
 		header('Location: ./register.php?errCode=2');
 		die('使用者名稱已被註冊');
 	}
 
-	// add user
-	$addSQL = sprintf(
-		"INSERT INTO jaredWu0805_users (nickname, username, password) 
-		VALUES ('%s', '%s', '%s')",
-		$nickname,
-		$username,
-		$password
-	);
-
-	$result = $conn->query($addSQL);
+	// register user
+	$stmt = $conn->prepare("INSERT INTO jaredWu0805_users (nickname, username, password) 
+		VALUES (?, ?, ?)");
+	$stmt->bind_param('sss', $nickname, $username, $password);
+	if (!$stmt->execute()) {
+		echo "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
+	}
+	$result = $stmt->affected_rows;
 	if (!$result) {
 		die('Failed to add user<br>' . $conn->error);
 	}	
 	echo 'Successfully add user';
 	header('Location: ./index.php');
+	$_SESSION['username'] = $username;
 ?>
 

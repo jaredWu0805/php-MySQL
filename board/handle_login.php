@@ -10,29 +10,23 @@
 		die('欄位不能為空白');	
 	}
 
-	$username = $conn->real_escape_string($username);
-	$password = $conn->real_escape_string($password);
+	$selectSQL = "SELECT * FROM jaredWu0805_users WHERE username=?";
 
-	$selectSQL = sprintf( 
-		"SELECT * FROM jaredWu0805_users WHERE username='%s' and password='%s'",
-		$username,
-		$password
-	);
-
-	$result = $conn->query($selectSQL);
-
+	$stmt = $conn->prepare($selectSQL);
+	$stmt->bind_param('s', $username);
+	$stmt->execute();
+	$result = $stmt->get_result();
 	if (!$result){
 		die('Failed to login<br>' . $conn->error);
 	} 
-	
-	if ($result->num_rows){
+	$row = $result->fetch_assoc();
+	if (password_verify($password, $row['password'])) {
 		echo 'Successfully login';
 		$_SESSION['username'] = $username;
 		header('Location: ./index.php');		
-	} else {
-		header('Location: ./login.php?errCode=3');
-		die('使用者名稱或密碼有錯');
+		exit();
 	}
-	
+	header('Location: ./login.php?errCode=3');
+	die('使用者名稱或密碼有錯');
 ?>
 

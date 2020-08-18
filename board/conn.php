@@ -1,8 +1,8 @@
 <?php
-	$server_name = 'mentor-program.co';
-	$username = 'mtr04group4';
-	$password = 'Lidemymtr04group4';
-	$db_name = 'mtr04group4';
+	$server_name = 'localhost';
+	$username = 'root';
+	$password = '';
+	$db_name = 'jared';
 
 	$conn = new mysqli($server_name, $username, $password, $db_name);
 
