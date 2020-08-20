@@ -18,12 +18,13 @@
 		U.username as username, 
 		U.nickname as nickname from 
 		jaredWu0805_comments as C LEFT JOIN 
-		jaredWU0805_users as U ON 
+		jaredWu0805_users as U ON 
 		C.username = U.username ORDER BY 
 		created_at DESC";
-	$stmt = $conn->prepare($selectSQL);
-	$stmt->execute();
-	$result = $stmt->get_result();
+	// $stmt = $conn->prepare($selectSQL);
+	// $stmt->execute();
+	// $result = $stmt->get_result();
+	$result = $conn->query($selectSQL);
 	if (!$result) die('Cannot get data from DB' . $conn->error);
 ?>
 <!DOCTYPE html>
@@ -53,6 +54,9 @@
 					$errCode = $_GET['errCode'];
 					if ($errCode === '1') {
 						echo "<div class='warning'>錯誤：欄位不能為空白</div>";
+					}
+					if ($errCode === '4') {
+						echo "<div class='warning'>錯誤：沒有權限編輯或刪除</div>";
 					}
 				}
 			?>
@@ -90,11 +94,15 @@
 						<div class='comment__details'>
 							<div class='first__row'>
 								<div class='nickname'>". escape($row['nickname']) ." (@". escape($row['username']) .")</div>
-								<div class='created__at'>。". $row['created_at'] ."</div>
+								<div class='created__at'>。". $row['created_at'] ."</div>";
+								if ($username === $row['username']) {
+								echo "
 								<div class='btns'>
-									<a href='./edit_comment.php?id=". $row['id'] ."' class='edit__btn' title='edit'></a>
+									<a href='./update_comment.php?id=". $row['id'] ."' class='edit__btn' title='edit'></a>
 									<a href='./delete_comment.php?id=". $row['id'] ."' class='delete__btn' title='delete'></a>
-								</div>
+								</div>";
+							}
+								echo "
 							</div>
 							<div class='second__row'>
 								<div class='comment__content'>". escape($row['content']) ."</div>
