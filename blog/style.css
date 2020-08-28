@@ -1,0 +1,225 @@
+.hidden {
+	display: none;
+}
+
+html {
+	font-size: 18px;
+	font-family: 'Noto Sans TC', sans-serif;
+	position: relative;
+}
+
+body {
+	margin: 0px;
+}
+
+.nav__bar {
+	height: 80px;
+	border-bottom: solid 0.8px grey;
+}
+
+.nav__bar .wrapper {
+	display: flex;
+	position: relative;
+	height: 100%;
+	align-items: center;
+	padding: 0px 94px;
+}
+
+a {
+	text-decoration: none;
+	color: black;
+}
+
+.icon {
+	font-weight: bold;
+	font-size: 30px;
+	padding-bottom: 8px;
+	margin-right: 5px;
+}
+
+.link__btn {
+	margin-left: 10px;
+}
+
+.btns2 {
+	margin-left: auto;
+}
+
+.wrapper {
+	max-width: 1920px;
+	margin: 0px auto;
+}
+
+.banner {
+	position: relative;
+	height: 240px;
+	background-image: linear-gradient(black, #000000c9);
+	text-align: center;
+	color: white;
+}
+
+.banner__desc {
+	position: absolute;
+	left: 50%;
+	top: 35%;
+	transform: translate(-55%, -50%);
+}
+
+.blogs__wrapper{
+	position: relative;
+	min-height: 2100px;
+}
+
+.blogs__container {
+	position: absolute;
+	background-color: white;
+	width: 930px;
+	display: flex;
+	flex-flow: column;
+	align-items: center;
+	top: -70px;
+	left: 50%;
+	transform: translate(-50%, 0%);	
+}
+
+.page__title {
+	font-size: 30px;
+	margin-bottom: 10px;
+}
+
+.blog {
+	box-sizing: border-box;
+	width: 900px;
+	height: 400px;
+	margin-top: 15px;
+	border: solid 1.5px silver;
+	padding: 15px 35px;
+}
+
+.title__row {
+	display: flex;
+	justify-content: space-between;
+	margin: 10px 0px;
+}
+
+.blog__title {
+	font-size: 22px;
+}
+
+.edit__btn{
+	background-color: white;
+	border: solid 1.5px silver;
+	color: #5a5a5a;
+	padding: 5px 10px;
+}
+
+.blog__details {
+	display: flex;
+	align-items: center;
+	background-color: #d7d7d7;
+	padding: 5px 0px;
+	color: #747474;
+}
+
+.blog__details div {
+	margin-left: 15px;
+}
+.clock__img {
+	background-image: url('./clock.png');
+	background-repeat: no-repeat;
+	background-size: contain;
+	margin-top: 1.8px;
+	height: 16px;
+	width: 16px;
+}
+
+.blog__content {
+	margin: 10px 0px;
+	max-height: 210px;
+    white-space: pre-line;
+	overflow: hidden;    
+}
+
+.more__btn{
+	background-color: white;
+	border: solid 1.5px grey;
+	color: #474747;
+	padding: 5px 10px;
+	font-size: 16px;
+	margin-top: 10px
+}
+
+button {
+	cursor: pointer;
+}
+
+footer {
+	background-color: black;
+	color: white;
+	text-align: center;
+	height: 35px;
+}
+
+.copyright {
+	padding-top: 6px;
+	font-size: 14px;
+}
+
+.login__wrapper {
+	position: absolute;
+	background-color: #545454e0;
+	height: 100%;
+	width: 100%;
+	z-index: 1;
+	text-align: center;
+}
+
+.login__container {
+	margin: 100px auto;
+	height: 410px;
+	width: 420px;
+	background-color: white;
+	padding: 20px;
+	border: solid 1px black;
+}
+
+.login__title {
+	margin: 15px 0px 25px;
+	font-size: 32px;
+	font-weight: bold;
+}
+
+.login__form {
+	display: flex;
+	flex-flow: column;
+	align-items: center;
+}
+
+.login__form > *{
+	margin-bottom: 15px;
+	width: 280px;
+}
+
+.login__form > input {
+	height: 20px;
+	font-size: 18px;
+}
+.input__desc {
+	margin-top: 10px;
+	align-self: flex-start;
+	width: 250px;
+}
+
+.login__form button {
+	border: none;
+	margin-top: 43px;
+	padding: 10px;
+	background-image: linear-gradient(black, #000000c9);
+	color: white; 
+	font-size: 16px;
+}
+
+#warning__msg {
+	color: red;
+    font-size: 16px;
+}

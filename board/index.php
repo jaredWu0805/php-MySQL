@@ -6,25 +6,45 @@
 	// Get user info from session
 	$username = NULL;
 	$nickname = NULL;
-	
+	$privilege_type = NULL;
 	if (!empty($_SESSION['username'])) {
 		$username = $_SESSION['username'];
 		$nickname = getNicknameByUsername($username);
+		$privilege_type = getPrivilegeByUsername($username);
 	} 	
 
+	$limit = 5;
+	$page = 1;
+	if (!empty($_GET['page'])) {
+		$page = $_GET['page'];
+	}
+	$offset = ($page - 1) * $limit;
+	
+	// Get total
+	$countSQL = "SELECT COUNT(*) from 
+		jaredWu0805_comments WHERE is_deleted is NULL";
+	$result = $conn->query($countSQL);
+	$row = $result->fetch_row();
+	$total_comments = $row[0];
+	$total_page = ceil($total_comments / $limit);
+	
 	// Get comments
-	$selectSQL = "SELECT C.content as content, 
+	$selectSQL = "
+		SELECT C.content as content, 
 		C.created_at as created_at, C.id as id,
 		U.username as username, 
-		U.nickname as nickname from 
-		jaredWu0805_comments as C LEFT JOIN 
-		jaredWu0805_users as U ON 
-		C.username = U.username ORDER BY 
-		created_at DESC";
-	// $stmt = $conn->prepare($selectSQL);
-	// $stmt->execute();
-	// $result = $stmt->get_result();
-	$result = $conn->query($selectSQL);
+		U.nickname as nickname 
+		from jaredWu0805_comments as C 
+		LEFT JOIN jaredWu0805_users as U 
+		ON C.username = U.username 
+		WHERE C.is_deleted is NULL
+		ORDER BY created_at DESC 
+		limit ? offset ?";
+	$stmt = $conn->prepare($selectSQL);
+	$stmt->bind_param('ii', $limit, $offset);
+	$stmt->execute();
+	$result = $stmt->get_result();
+	
 	if (!$result) die('Cannot get data from DB' . $conn->error);
 ?>
 <!DOCTYPE html>
@@ -38,6 +58,13 @@
 <body>
 	<header>注意!本站為練習用網站，並未實作資安的部分，請勿輸入任何真實的帳號與密碼</header>
 	<div class="container">
+		<div class="admin__btn">
+			<?php if (!empty($_SESSION['username'])) { ?>
+				<a class="logout__btn" href="./admin.php">登入管理頁面</a>
+			<?php } else {?>
+				<a class="logout__btn" href="./admin_login.php">登入管理頁面</a>
+			<?php } ?>
+		</div>
 		<section class="add__section">
 			<div class="login__btns">
 				<?php if (!empty($username)) {?>
@@ -71,6 +98,7 @@
 					<div><input name="newNickname" placeholder="請輸入您新的暱稱.." required/></div>
 					<button class="edit__nickname__btn update">更新</button>
 				</form>	
+				<?php  if ($privilege_type !== 'banned'){ ?>
 				<form class="general__form" method="POST" action="add_post.php">
 					<div class="add__comment">
 						<div> 有什麼想說的嗎? </div>
@@ -81,36 +109,57 @@
 					?>
 					<div class="add__btn"><button>送出</button></div>
 				</form>	
+				<?php } else { ?>
+				    <div class="add__comment">
+						<div class="banned__warning"> 您已被停權，無法新增貼文</div>
+					</div>
+				<?php } ?>
 			<?php } else { ?>
 				<div class="desc"> 請先登入帳號</div>
 			<?php }?>
 		</section>
 		<section class="comments">
-			<?php
-				while($row = $result->fetch_assoc()) {
-					echo "
+			<?php while($row = $result->fetch_assoc()) { ?>
 					<div class='comment'>
 						<div class='icon'></div>
 						<div class='comment__details'>
 							<div class='first__row'>
-								<div class='nickname'>". escape($row['nickname']) ." (@". escape($row['username']) .")</div>
-								<div class='created__at'>。". $row['created_at'] ."</div>";
-								if ($username === $row['username']) {
-								echo "
-								<div class='btns'>
-									<a href='./update_comment.php?id=". $row['id'] ."' class='edit__btn' title='edit'></a>
-									<a href='./delete_comment.php?id=". $row['id'] ."' class='delete__btn' title='delete'></a>
-								</div>";
-							}
-								echo "
+								<div class='nickname'><?php echo(escape($row['nickname']) . " (@" . escape($row['username']) . ")"); ?> </div>
+								<div class='created__at'><?php echo $row['created_at']; ?></div>
+								<?php if ($username === $row['username'] || $privilege_type === 'admin') {?>
+									<div class='btns'><a href='./update_comment.php?id=<?php echo $row["id"];?>' class='edit__btn' title='edit'></a>
+										<a href='./delete_comment.php?id=<?php  echo $row["id"]; ?>' class='delete__btn' title='delete'></a>
+									</div><?php } ?>
 							</div>
 							<div class='second__row'>
-								<div class='comment__content'>". escape($row['content']) ."</div>
+								<div class='comment__content'><?php echo(escape($row['content'])); ?></div>
 							</div>
 						</div>
-					</div>";
-				}
-			?>
+					</div>
+			<?php } ?>
+		</section>
+		<section class="page__info">
+			<div class="page__details">
+				總共有  
+				<?php echo $total_comments;?>
+				則留言，頁數:
+				<?php echo $page;?> / <?php echo $total_page;?>
+			</div>
+			<div class="page__index">
+				<?php 
+				if ($page != 1) {?>
+					<a href='index.php?page=1'>首頁</a>
+					<a href='index.php?page=
+				<?php echo ($page - 1);?>'>上一頁</a>
+				<?php } ?>
+				<?php 
+				if ($page != $total_page) {?>
+					<a href='index.php?page=
+					<?php echo ($page + 1);?>'>下一頁</a>
+					<a href='index.php?page=
+					<?php echo $total_page;?>'>最後一頁</a>
+				<?php }?></div>
+			
 		</section>
 	</div>
 

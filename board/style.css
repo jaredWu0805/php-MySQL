@@ -224,3 +224,105 @@ div.add__btn {
 	margin: 0px;
 	margin-top: 8px;
 }
+
+.page__info {
+	text-align: center;
+	margin-top: 15px;
+}
+
+.page__details {
+	margin-bottom: 12px;
+	font-size: 12px;
+}
+.page__index a {
+	background-color: #2ead9e;
+	border-radius: 4px;
+	margin: 5px 3px;
+	padding: 5px 8px;
+	text-decoration: none;
+	color: white;
+	border: 1px solid darkcyan;
+	font-size: 12px;
+	transition: 0.3s;
+}
+
+.add__section h1 {
+	margin-block-start: auto;
+	margin-top: 10px;
+}
+
+.admin__btn {
+	text-align: end;
+	padding-right: 5px;
+	padding-top: 5px;
+}
+
+.admin__btn a {
+	text-decoration: none;
+	color: #2ead9e;
+	font-size: 12px;
+}
+
+.admin__section {
+	position: relative;
+	width: 780px;
+}
+
+.admin__container {
+	font-size: 22px;
+}
+
+.admin__container a {
+	text-decoration: none;
+}
+
+.table__container, .admin__container {
+	padding-bottom: 15px;
+	border-bottom: solid 1px grey;
+}
+
+.admin__users {
+	border: solid 1px silver;
+	font-size: 15px;
+	padding: 10px;
+	width: -webkit-fill-available;
+}
+
+thead {
+	background-color: #2ead9e;
+}
+
+table, th, td {
+	text-align: center;
+	border: 1px solid silver;
+	border-collapse: collapse;
+	padding: 8px;
+}
+
+td {
+	overflow-wrap: anywhere;
+}
+
+.admin__edit__btn {
+	background-color: #2ead9e;
+	border-radius: 4px;
+	padding: 3px 5px;
+	text-decoration: none;
+	color: white;
+	border: 1px solid darkcyan;
+	transition: 0.3s;
+}
+
+#user__input {
+	width: 80%;
+}
+
+.admin__username {
+	position: absolute;
+	right: 5px;
+	top: 55px;
+}
+
+.add__comment .banned__warning {
+	margin-bottom: 10px;
+}
