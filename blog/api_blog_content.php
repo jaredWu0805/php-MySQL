@@ -34,7 +34,8 @@
 
 	$json = array(
 		"blogs" => $blogs,
-	);
+		"limit" => $limit,
+		"offset"=> $offset);
 
 	$response = json_encode($json);
 	header('Content-type: application/json; charset=utf-8;');

@@ -38,7 +38,13 @@ a {
 }
 
 .link__btn {
-	margin-left: 10px;
+	margin-left: 18px;
+	color: grey;
+	transition: 0.3s;
+}
+
+.link__btn:hover {
+	color: black;
 }
 
 .btns2 {
@@ -65,21 +71,16 @@ a {
 	transform: translate(-55%, -50%);
 }
 
-.blogs__wrapper{
-	position: relative;
-	min-height: 2100px;
-}
 
 .blogs__container {
-	position: absolute;
 	background-color: white;
 	width: 930px;
 	display: flex;
 	flex-flow: column;
 	align-items: center;
-	top: -70px;
-	left: 50%;
-	transform: translate(-50%, 0%);	
+	margin: 0 auto;
+	transform: translate(0%, -70px);	
+	min-height: 100vh;
 }
 
 .page__title {
@@ -88,6 +89,7 @@ a {
 }
 
 .blog {
+	position: relative;
 	box-sizing: border-box;
 	width: 900px;
 	height: 400px;
@@ -104,13 +106,26 @@ a {
 
 .blog__title {
 	font-size: 22px;
+	font-weight: bold;
+	width: 760px;
+	overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 .edit__btn{
-	background-color: white;
-	border: solid 1.5px silver;
-	color: #5a5a5a;
-	padding: 5px 10px;
+    background-color: white;
+    border: solid 1.5px silver;
+    color: silver;
+    padding: 1px 8px;
+    transition: 0.3s;
+    font-size: 15px;
+    vertical-align: sub;
+}
+
+.edit__btn:hover {
+	color: black;
+	border-color: black;
 }
 
 .blog__details {
@@ -146,7 +161,14 @@ a {
 	color: #474747;
 	padding: 5px 10px;
 	font-size: 16px;
-	margin-top: 10px
+	position: absolute;
+	bottom: 15px;
+	transition: 0.3s;
+}
+
+.more__btn:hover {
+	color: black;
+	border-color: black;
 }
 
 button {
@@ -222,4 +244,27 @@ footer {
 #warning__msg {
 	color: red;
     font-size: 16px;
+}
+
+.about__me {
+    line-height: 2em;
+    height: auto;
+    white-space: pre-line;
+    padding: 35px 35px;
+}
+
+.blog__list {
+	max-height: 100px;
+	overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    margin-bottom: 25px;
+}
+
+.list__height {
+	height: auto;
+}
+
+.blank {
+	visibility: hidden;
 }

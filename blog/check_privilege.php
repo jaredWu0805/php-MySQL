@@ -1,6 +1,6 @@
 <?php
 	session_start();
-	header('Content-type:application/json;charset=utf-8');
+	header('Content-type: application/json; charset=utf-8;');
 
 	$json = array();
 	if (!empty($_SESSION['privilege_type']) && 
