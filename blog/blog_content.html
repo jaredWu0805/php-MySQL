@@ -47,7 +47,7 @@
 					存放新聞之地
 				</div>
 				<div class="page__subtitle">
-					Blog list
+					Blog
 				</div>
 			</div>
 		</div>
@@ -106,25 +106,27 @@
 		    return $('<div/>').text(str).html();
 		}
 
-		
+		let params = (new URL(document.location)).searchParams;
+		let id = params.get('id');
 		
 		// load blog list
 		$.ajax({
-			url: "./api_blogs.php",
-			data: {
-				limit: 100,
-				offset: 0
-			},
+			url: "./api_one_blog.php?id=" + id,
 			success: function(data) {
 				let blogContainer = $(".blogs__container");
 				blogs = data.blogs;
+				if (blogs === undefined) {
+					console.log('cannot get the blog');
+				}
+				
 				blogs.forEach(blog => {
 					blogContainer.append(`
 	  				<div class="blog list__height">
 							<div class="title__row">
 								<div class="blog__title">${htmlEscape(blog['title'])}</div>
 								<div class="edit__btn__container">
-									<a class="edit__btn logged__in hidden" href="./blog_edit.html?${blog['id']}">編輯</a>
+									<a class="edit__btn logged__in hidden" href="./blog_edit.html?id=${blog['id']}">編輯</a>
+									<a class="edit__btn logged__in hidden" href="./api_delete_blog.php?id=${blog['id']}">刪除</a>
 								</div>
 							</div>
 						<div class="blog__details">
@@ -132,10 +134,10 @@
 							<div class="blog__time">${htmlEscape(blog['created_at'])}</div>
 							<div class="blog__category">熱門新聞</div>
 						</div>
-						<div class="blog__content blog__list">${htmlEscape(blog['blog'])}</div>
+						<div class="blog__content one__blog">${htmlEscape(blog['blog'])}</div>
 						<div class="last__row">
-							<input type="hidden" value="${blog['id']}"/>
-							<button class="more__btn">READ MORE</button>
+							<div class="blank">blank</div>
+							<a class="more__btn" href="./blog_list.html" >返回文章列表</a>
 						</div>
 					</div>
 		  			`)
@@ -151,6 +153,7 @@
 						determineHidden('.logged__in', '.logged__out');
 					} 
 				}
+				console.log('check');
 			}
 					
 			req.onerror = function() {
@@ -193,17 +196,7 @@
 			  });
 		});
 
-		// Click more button
-		let moreBtn = $('.more__btn');
-		console.log(moreBtn);
-		$('.blogs__container').on('click', function(event){
-			let target = event.target;
-			if (target.classList.contains('more__btn')){
-				var sibling = target.parentNode.querySelector('input');
-				let id = sibling.value;
-				
-			}
-		});
+		
 
 	</script>
 </body>

@@ -95,7 +95,7 @@ a {
 	height: 400px;
 	margin-top: 15px;
 	border: solid 1.5px silver;
-	padding: 15px 35px;
+	padding: 5px 35px 15px;
 }
 
 .title__row {
@@ -107,7 +107,7 @@ a {
 .blog__title {
 	font-size: 22px;
 	font-weight: bold;
-	width: 760px;
+	width: 720px;
 	overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -267,4 +267,9 @@ footer {
 
 .blank {
 	visibility: hidden;
+}
+
+.one__blog {
+	max-height: none;
+	margin: 20px 0px 40px;
 }

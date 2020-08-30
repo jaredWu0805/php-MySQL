@@ -124,7 +124,7 @@
 								<div class="title__row">
 									<div class="blog__title">${htmlEscape(blog['title'])}</div>
 									<div class="edit__btn__container">
-										<a class="edit__btn logged__in hidden" href="./blog_edit.html?${blog['id']}">編輯</a>
+										<a class="edit__btn logged__in hidden" href="./blog_edit.html?id=${blog['id']}">編輯</a>
 									</div>
 								</div>
 							<div class="blog__details">
@@ -135,7 +135,7 @@
 							<div class="blog__content">${htmlEscape(blog['blog'])}</div>
 							<div class="last__row">
 								<div class="blank">blank</div>
-								<a class="more__btn" href="./blog__content.html?${blog['id']}" value="READ MORE">READ MORE</a>
+								<a class="more__btn" href="./blog_content.html?id=${blog['id']}">READ MORE</a>
 							</div>
 						</div>
 		  			`);
