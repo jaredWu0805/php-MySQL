@@ -106,6 +106,9 @@
 		    return $('<div/>').text(str).html();
 		}
 		
+		let json = '';
+		
+
 		// load blog list
 		$.ajax({
 			url: "./api_blogs.php",
@@ -138,13 +141,16 @@
 				
 			}
 		}).done(function() {
+			// if is admin then show hidden button
 			// Check privilege	
 			const req = new XMLHttpRequest();
 			req.onload = function() {
 				if (req.status >= 200 && req.status <400) {
-					let json = JSON.parse(req.responseText);
-					if (json[0]['admin']) {
-						determineHidden('.logged__in', '.logged__out');
+					json = JSON.parse(req.responseText);
+					if (!json[0]['admin']) {
+						window.location.replace('./index.html');
+					} else {
+					determineHidden('.logged__in', '.logged__out');
 					} 
 				}
 			}
@@ -155,6 +161,7 @@
 			
 			req.open('GET', './check_privilege.php', true);
 			req.send();
+			
 		});
 
 

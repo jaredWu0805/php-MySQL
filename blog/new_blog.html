@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset="utf-8">
-	<title> Jared's Blog - about me </title>
+	<title> Jared's Blog - Add blog </title>
 	<link rel="stylesheet" href="./style.css">
 	<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300&display=swap" rel="stylesheet">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -34,7 +34,7 @@
 			</div>
 			<div class="link__btns btns2">
 				<a class="link__btn logged__in hidden" id="admin__btn" href="#">管理後台</a>
-				<a class="link__btn logged__in hidden" id="new__post__btn" href="#">發新文章</a>
+				<a class="link__btn logged__in hidden" id="new__post__btn" href="new_blog.html">發新文章</a>
 				<a class="link__btn logged__in hidden" id="logout__btn" href="#">登出</a>
 				<a class="link__btn logged__out" id="login__btn" href="#">登入</a>
 			</div>
@@ -58,15 +58,16 @@
 				<div class="title__row new__blog">
 					新增文章
 				</div>
-				<form class="new__blog__form" action="./api_new_post.html">
+				<form class="new__blog__form" method="POST" action="./api_new_blog.php">
 					<input class="new__blog__title" name="new_title" placeholder="請輸入標題" required>
-					<select name="category">
+					<select name="category" >
+						<option selected disabled>選擇文章分類</option>
 						<option value="歷史回顧">歷史回顧</option>
 						<option value="其他">其他</option>
 					</select>
-					<input type="textarea" class="blog__text" placeholder="說些什麼...">
+					<textarea class="blog__text" name="blog_content" placeholder="說些什麼..."></textarea>
 					<div class="submit__container">
-						<a class="submit__btn" href="./api_new_post.php" >發送</a>
+						<button type="submit" class="submit__btn">發送</button>
 					</div>
 				</form>
 			</div>

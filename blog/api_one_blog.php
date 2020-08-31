@@ -22,7 +22,8 @@
 			"id" => $row['id'],
 			"title" => $row['title'],
 			"blog" => $row['blog'],
-			"created_at" => $row['created_at']
+			"created_at" => $row['created_at'],
+			"category" => $row['category']
 		));
 	}
 

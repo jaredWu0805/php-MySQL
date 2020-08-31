@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset="utf-8">
-	<title> Jared's Blog - blog content </title>
+	<title> Jared's Blog - Update blog </title>
 	<link rel="stylesheet" href="./style.css">
 	<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300&display=swap" rel="stylesheet">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -33,7 +33,7 @@
 				<a class="link__btn" href="./about_me.html">關於我</a>
 			</div>
 			<div class="link__btns btns2">
-				<a class="link__btn logged__in hidden" id="admin__btn" href="./admin.html">管理後台</a>
+				<a class="link__btn logged__in hidden" id="admin__btn" href="#">管理後台</a>
 				<a class="link__btn logged__in hidden" id="new__post__btn" href="new_blog.html">發新文章</a>
 				<a class="link__btn logged__in hidden" id="logout__btn" href="#">登出</a>
 				<a class="link__btn logged__out" id="login__btn" href="#">登入</a>
@@ -44,17 +44,34 @@
 		<div class="banner">
 			<div class="banner__desc">
 				<div class="page__title">
-					存放新聞之地
+					更新文章
 				</div>
 				<div class="page__subtitle">
-					Blog
+					Update something...
 				</div>
 			</div>
 		</div>
 	</div>
-	<div class="wrapper blogs__wrapper">
+	<div class="wrapper blogs__wrapper ">
 		<div class="blogs__container">
-			
+			<div class="blog list__height">
+				<div class="title__row new__blog">
+					更新文章
+				</div>
+				<form class="new__blog__form" method="POST" action="./api_blog_edit.php">
+					<input class="new__blog__title" name="new_title" placeholder="請輸入標題" required>
+					<select name="category" >
+						<option selected value="未分類">選擇文章分類</option>
+						<option value="歷史回顧">歷史回顧</option>
+						<option value="其他">其他</option>
+					</select>
+					<textarea class="blog__text" name="blog_content" placeholder="說些什麼..."></textarea>
+					<input type="hidden" id="id" name="id">
+					<div class="submit__container">
+						<button type="submit" class="submit__btn">發送</button>
+					</div>
+				</form>
+			</div>
 		</div>
 	</div>
 	<footer>
@@ -63,20 +80,17 @@
 		</div>
 	</footer>
 	<script>
-				// Display hidden items when logged in
+		// Display hidden items when logged in
 		function determineHidden (class1, class2) {
-			if (class1 !== null){
-				elements = document.querySelectorAll(class1);
-				elements.forEach(function(element) {
-					element.classList.remove('hidden');
-				});
-			}
-			if (class2 !== null) {
-				elements = document.querySelectorAll(class2);
-				elements.forEach(function(element) {
-					element.classList.add('hidden');
-				});	
-			}
+			elements = document.querySelectorAll(class1);
+			elements.forEach(function(element) {
+				element.classList.remove('hidden');
+			});
+			elements = document.querySelectorAll(class2);
+			elements.forEach(function(element) {
+				element.classList.add('hidden');
+			});
+				
 		} 
 
 		function handleSecondGroup(e) {
@@ -90,6 +104,7 @@
 					$.get('./api_logout.php').done(()=>{
 						location.reload();
 					});
+
 					break;
 				case "admin__btn" :
 					console.log('admin');
@@ -105,6 +120,28 @@
 		    return $('<div/>').text(str).html();
 		}
 
+		// Check privilege	
+		const req = new XMLHttpRequest();
+		req.onload = function() {
+			if (req.status >= 200 && req.status <400) {
+				let json = JSON.parse(req.responseText);
+				if (json[0]['admin']) {
+					determineHidden('.logged__in', '.logged__out');	
+				} else {
+					window.location.replace('index.html');
+				}	
+			}
+		}
+		
+
+
+		req.onerror = function() {
+			console.log('error');
+		}
+		
+		req.open('GET', './check_privilege.php', true);
+		req.send();
+		
 		let params = (new URL(document.location)).searchParams;
 		let id = params.get('id');
 		
@@ -119,49 +156,20 @@
 				}
 				
 				blogs.forEach(blog => {
-					blogContainer.append(`
-	  				<div class="blog list__height">
-							<div class="title__row">
-								<div class="blog__title">${htmlEscape(blog['title'])}</div>
-								<div class="edit__btn__container">
-									<a class="edit__btn logged__in hidden" href="./blog_edit.html?id=${blog['id']}">編輯</a>
-									<a class="edit__btn logged__in hidden" href="./api_delete_blog.php?id=${blog['id']}">刪除</a>
-								</div>
-							</div>
-						<div class="blog__details">
-							<div class="clock__img"></div>
-							<div class="blog__time">${htmlEscape(blog['created_at'])}</div>
-							<div class="blog__category">熱門新聞</div>
-						</div>
-						<div class="blog__content one__blog">${htmlEscape(blog['blog'])}</div>
-						<div class="last__row">
-							<div class="blank">blank</div>
-							<a class="more__btn" href="./blog_list.html" >返回文章列表</a>
-						</div>
-					</div>
-		  			`)
+					$(".new__blog__title").val(blog['title']) ;
+					console.log(blog['category']);
+					let options = $("option");
+					jQuery.each(options, function(index, value) {
+						console.log(index + ': ' + value);
+					});
+					// options.forEach(option => {
+					// 	console.log(option);
+					// })
+					$(".blog__text").val(blog['blog']);
+					$("#id").val(id);
 				})
 			}
-		}).done(function() {
-			// Check privilege	
-			const req = new XMLHttpRequest();
-			req.onload = function() {
-				if (req.status >= 200 && req.status <400) {
-					let json = JSON.parse(req.responseText);
-					if (json[0]['admin']) {
-						determineHidden('.logged__in', '.logged__out');
-					} 
-				}
-				console.log('check');
-			}
-					
-			req.onerror = function() {
-				console.log('error');
-			}
-			
-			req.open('GET', './check_privilege.php', true);
-			req.send();
-		});
+		})
 
 
 		// Click second group buttons
@@ -169,7 +177,7 @@
 			handleSecondGroup(e);
 		});
 
-		// From login from back to main page
+		// From login form back to main page
 		$('.login__wrapper').on('click', (e)=>{
 			if (e.target.classList.contains('login__wrapper')){
 				$("#warning__msg").html('');
@@ -196,7 +204,6 @@
 		});
 
 		
-
 	</script>
 </body>
 </html>

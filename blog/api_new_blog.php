@@ -10,18 +10,18 @@
 		exit();
 	}
 
-	if ($_GET['id'] === null) {
-		echo "No blog specified";
-		header('Location: ./index.html');
+	if (empty($_POST['new_title'])) {
+		header('Location: ./new_blog.html');
 		exit();
 	}
 
-	$id = $_GET['id'];
+	$title = $_POST['new_title'];
+	$category = $_POST['category'];
+	$content = $_POST['blog_content'];
 
-	$sql = 'UPDATE jaredWu0805_blogs SET is_deleted=1 WHERE id=?
-		';
+	$sql = 'INSERT INTO jaredWu0805_blogs (title, category, blog) values (?,?,?)';
 	$stmt = $conn->prepare($sql);
-	$stmt->bind_param('i', $id);
+	$stmt->bind_param('sss', $title, $category, $content);
 	$stmt->execute();
 	$result = $stmt->get_result();
 
