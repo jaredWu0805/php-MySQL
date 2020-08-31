@@ -16,12 +16,12 @@
 
 	$id = $_GET['id'];
 
-	// $sql = '
-	// 	';
-	// $stmt = $conn->prepare($sql);
-	// $stmt->bind_param('i', $id);
-	// $stmt->execute();
-	// $result = $stmt->get_result();
+	$sql = 'UPDATE jaredWu0805_blogs SET is_deleted=1 WHERE id=?
+		';
+	$stmt = $conn->prepare($sql);
+	$stmt->bind_param('i', $id);
+	$stmt->execute();
+	$result = $stmt->get_result();
 
-	// header('Location: ./index.html');
+	header('Location: ./admin.html');
 ?>
