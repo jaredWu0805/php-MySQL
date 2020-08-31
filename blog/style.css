@@ -273,3 +273,52 @@ footer {
 	max-height: none;
 	margin: 20px 0px 40px;
 }
+
+.new__blog {
+	font-weight: bold;
+	font-size: 26px;
+}
+
+.new__blog__title {
+	width: 100%;
+	height: 25px;
+}
+
+.new__blog__form > * {
+	margin: 10px 0px;
+	font-size: 18px;
+}
+
+.new__blog__form select {
+	width:100%;
+	height: 25px;
+}
+
+.blog__text {
+	width: 100%;
+	height: 350px;
+}
+
+.blog__text:placeholder {
+	vertical-align: top;
+}
+.submit__container {
+	display: flex;
+	width: 100%;
+	flex-flow: row-reverse;
+}
+
+.submit__btn {
+	background-color: white;
+	border: solid 1.5px grey;
+	color: grey;
+	padding: 5px 10px;
+	font-size: 16px;
+	transition: 0.3s;
+
+}
+
+.submit__btn:hover {
+	color: black;
+	border-color: black;
+}
