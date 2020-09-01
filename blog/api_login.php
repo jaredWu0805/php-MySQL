@@ -24,7 +24,7 @@
 	$result = $stmt->get_result();
 	$row = $result->fetch_assoc();
 	
-	if (!empty($row) && $password === $row['password']) {
+	if (!empty($row) && hash('sha256', $password) === $row['password']) {
 		if ($row['privilege_type'] !== 'admin') {
 			return_res("使用者沒有權限");
 			die();		
@@ -40,7 +40,6 @@
 	
 
 	function return_res($str) {
-		// $response = json_encode($json ,JSON_UNESCAPED_UNICODE);
 		$json = array();
 		array_push($json, array(
 			"msg" => $str

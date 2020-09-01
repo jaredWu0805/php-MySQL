@@ -88,15 +88,8 @@
 					break;
 				case "logout__btn" :
 					$.get('./api_logout.php').done(()=>{
-						location.reload();
+						window.location.replace('index.html');
 					});
-
-					break;
-				case "admin__btn" :
-					console.log('admin');
-					break;
-				case "new__post__btn" :
-					console.log('new');
 					break;
 			}
 		}
@@ -147,11 +140,11 @@
 			req.onload = function() {
 				if (req.status >= 200 && req.status <400) {
 					json = JSON.parse(req.responseText);
-					if (!json[0]['admin']) {
-						window.location.replace('./index.html');
+					if (json[0]['admin']) {
+						determineHidden('.logged__in', '.logged__out');
 					} else {
-					determineHidden('.logged__in', '.logged__out');
-					} 
+						window.location.replace('index.html');
+					}	
 				}
 			}
 					

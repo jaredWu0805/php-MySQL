@@ -90,15 +90,8 @@
 					break;
 				case "logout__btn" :
 					$.get('./api_logout.php').done(()=>{
-						location.reload();
+						window.location.replace('index.html');
 					});
-
-					break;
-				case "admin__btn" :
-					console.log('admin');
-					break;
-				case "new__post__btn" :
-					console.log('new');
 					break;
 			}
 		}

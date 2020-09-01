@@ -15,9 +15,9 @@
 				<div class="login__title">Log In</div>
 				<form class="login__form" method="POST" action="#">
 					<div class="input__desc">USERNAME</div>
-					<input type="input" id="username" focus required/>
+					<input id="username" autofocus required/>
 					<div class="input__desc">PASSWORD</div>
-					<input type="password" id="password" focus required/>
+					<input type="password" id="password" required/>
 					<button class="form__btn" type="submit">SIGN IN</button>
 				</form>
 				<div id="warning__msg"></div>
@@ -85,18 +85,12 @@
 			switch (target.id) {
 				case "login__btn" : 
 					$('.login__wrapper').slideToggle('slow');
+					// $('#username').attr('autofocus', 'true');
 					break;
 				case "logout__btn" :
 					$.get('./api_logout.php').done(()=>{
-						location.reload();
+						window.location.replace('index.html');
 					});
-
-					break;
-				case "admin__btn" :
-					console.log('admin');
-					break;
-				case "new__post__btn" :
-					console.log('new');
 					break;
 			}
 		}
@@ -115,9 +109,7 @@
 			},
 			success: function(res) {
 				let blogContainer = $(".blogs__container");
-				console.log(res);
 				blogs = res.blogs;
-				console.log(blogs);
 				blogs.forEach(blog => {
 					blogContainer.append(`
 		  				<div class="blog">
@@ -183,7 +175,7 @@
 			let password = $("#password").val();
 			$.post( "api_login.php", { username: username, password: password })
 			  .done(function(data) {
-			 
+			  	console.log(data);
 			  	msg = data[0]['msg'];
 			  	if (msg === true) {
 			  		location.reload();
@@ -192,8 +184,6 @@
 				}
 			  });
 		});
-
-		// Click blogs' list button
 
 	</script>
 </body>

@@ -26,5 +26,5 @@
 	$stmt->execute();
 	$result = $stmt->get_result();
 
-	// header('Location: ./admin.html');
+	header('Location: ./admin.html');
 ?>

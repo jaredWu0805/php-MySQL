@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset="utf-8">
-	<title> Jared's Blog - Update blog </title>
+	<title> Jared's Blog - Edit blog </title>
 	<link rel="stylesheet" href="./style.css">
 	<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300&display=swap" rel="stylesheet">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -33,7 +33,7 @@
 				<a class="link__btn" href="./about_me.html">關於我</a>
 			</div>
 			<div class="link__btns btns2">
-				<a class="link__btn logged__in hidden" id="admin__btn" href="#">管理後台</a>
+				<a class="link__btn logged__in hidden" id="admin__btn" href="./admin.html">管理後台</a>
 				<a class="link__btn logged__in hidden" id="new__post__btn" href="new_blog.html">發新文章</a>
 				<a class="link__btn logged__in hidden" id="logout__btn" href="#">登出</a>
 				<a class="link__btn logged__out" id="login__btn" href="#">登入</a>
@@ -44,10 +44,10 @@
 		<div class="banner">
 			<div class="banner__desc">
 				<div class="page__title">
-					更新文章
+					編輯文章
 				</div>
 				<div class="page__subtitle">
-					Update something...
+					Edit something...
 				</div>
 			</div>
 		</div>
@@ -56,12 +56,12 @@
 		<div class="blogs__container">
 			<div class="blog list__height">
 				<div class="title__row new__blog">
-					更新文章
+					編輯文章
 				</div>
 				<form class="new__blog__form" method="POST" action="./api_blog_edit.php">
 					<input class="new__blog__title" name="new_title" placeholder="請輸入標題" required>
 					<select name="category" >
-						<option selected value="未分類">選擇文章分類</option>
+						<option selected disabled>選擇文章分類</option>
 						<option value="歷史回顧">歷史回顧</option>
 						<option value="其他">其他</option>
 					</select>
@@ -102,15 +102,8 @@
 					break;
 				case "logout__btn" :
 					$.get('./api_logout.php').done(()=>{
-						location.reload();
+						window.location.replace('index.html');
 					});
-
-					break;
-				case "admin__btn" :
-					console.log('admin');
-					break;
-				case "new__post__btn" :
-					console.log('new');
 					break;
 			}
 		}
@@ -132,9 +125,7 @@
 				}	
 			}
 		}
-		
-
-
+	
 		req.onerror = function() {
 			console.log('error');
 		}
@@ -157,14 +148,10 @@
 				
 				blogs.forEach(blog => {
 					$(".new__blog__title").val(blog['title']) ;
-					console.log(blog['category']);
 					let options = $("option");
-					jQuery.each(options, function(index, value) {
-						console.log(index + ': ' + value);
+					jQuery.each(options, function(index) {
+						if (blog['category'] === $(this).val()) $(this).attr('selected', 'selected');
 					});
-					// options.forEach(option => {
-					// 	console.log(option);
-					// })
 					$(".blog__text").val(blog['blog']);
 					$("#id").val(id);
 				})
