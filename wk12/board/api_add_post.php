@@ -1,6 +1,7 @@
 <?php
 	require_once('conn.php');
 	header('Content-type:application/json;charset=utf-8');
+	
 
 	if (empty($_POST['site_name']) ||
 		empty($_POST['nickname']) ||
