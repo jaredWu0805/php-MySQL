@@ -11,21 +11,26 @@
 	}
 
 	$limit = 5;
-	$offset = 0;
 
 	if (!empty($_POST['limit'])) {
 		$limit = $_POST['limit'];
 	}
 
-	if (!empty($_POST['offset'])) {
-		$offset = $_POST['offset'];
-	}
-
 	$site_name = $_POST['site_name'];
 
-	$sql = "SELECT id, nickname, content, created_at FROM jaredWu0805_new_board WHERE site_name=? ORDER BY id DESC LIMIT ? OFFSET ?";
-	$stmt = $conn->prepare($sql);
-	$stmt->bind_param('sii', $site_name, $limit, $offset);
+	if (!empty($_POST['cursor'])) {
+		$cursor = $_POST['cursor'];
+		$sql = "SELECT id, nickname, content, created_at FROM jaredWu0805_new_board WHERE site_name=? AND id < ? ORDER BY id DESC LIMIT ?";
+		$stmt = $conn->prepare($sql);
+		$stmt->bind_param('sii', $site_name, $cursor, $limit);
+	} else {
+		$sql = "SELECT id, nickname, content, created_at FROM jaredWu0805_new_board WHERE site_name=? ORDER BY id DESC LIMIT ?";
+		$stmt = $conn->prepare($sql);
+		$stmt->bind_param('si', $site_name, $limit);
+	}
+
+	
+
 	$result = $stmt->execute();
 	if (!$result) {
 		$data = array(
@@ -72,6 +77,8 @@
 	}
 
 	$res = array(
+		"success" => true,
+		"cursor" => $last_id,
 		"noMoreData" => $no_more,
 		"posts" => $posts
 	);
