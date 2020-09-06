@@ -27,7 +27,7 @@
 	$row = $result->fetch_assoc();
 	if ($row === null) {
 		$success = false;
-		$msg = "List id doesn't exist.";
+		$msg = "List id doesn't exist. Will create new list.";
 		$content = "";
 	} else {
 		$success = true;
