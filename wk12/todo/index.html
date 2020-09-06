@@ -1,0 +1,300 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+     <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://bootswatch.com/4/cyborg/bootstrap.css" crossorigin="anonymous">
+
+ <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+
+    <style>
+      .custom-control-label {
+        overflow-wrap: anywhere;
+      }
+
+      .todo {
+        font-size: 18px;
+      }
+
+      input[type="checkbox"] {
+        left: 0px;
+        top: 50%;
+        transform: translate(0%, -50%);
+      }
+
+      .todos-container {
+        margin-bottom: 80px;
+      }
+
+      .todo-btns {
+        width: 55px;
+      }
+
+      .todo-btns button {
+        width: 100%;
+      }
+
+      .done {
+        text-decoration: line-through;
+      }
+
+      .hide {
+        display: none !important;
+      }
+
+    </style>
+    <title>Todo List!</title>
+  </head>
+  <body>
+    <!-- As a heading -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+      <span class="navbar-brand mb-0 h1">Todos</span>
+      <button type="button" class="btn btn-primary save-btn">Save todo</button>
+      <button type="button" class="btn btn-primary clear-btn">Clear completed</button>
+    </nav>
+    <div class="container todos-container">
+      <ul class="list-group col-md-10 offset-md-1 todos">
+         <!-- <li class="list-group-item d-flex justify-content-between align-items-center" status="undone">
+          <div class="position-relative col-10 px-0">
+            <input type="checkbox" class="custom-check position-absolute">
+            <label class="form-check-label position-relative  pl-4 pr-2 todo">
+              CSS3 彈性盒子，又稱flexbox，是為了適應不同螢幕尺寸
+              CSS3 彈性盒子，又稱flexbox，是為了適應不同螢幕尺寸
+              CSS3 彈性盒子，又稱flexbox，是為了適應不同螢幕尺寸
+              CSS3 彈性盒子，又稱flexbox，是為了適應不同螢幕尺寸
+              CSS3 彈性盒子，又稱flexbox，是為了適應不同螢幕尺寸
+            </label>
+          </div>
+          <div class="d-block todo-btns mx-1">
+            <button type="button" class="btn btn-outline-primary btn-sm my-1 edit-btn" edit=1>edit</button>
+            <button type="button" class="btn btn-outline-primary btn-sm my-1 delete-btn">delete</button>
+          </div>
+        </li> -->
+        
+      </ul>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="msgModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Message</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer class="footer py-2 fixed-bottom bg-dark">
+      <div class="container d-flex px-2">
+        <form class="form-group my-0 px-0 d-flex col-8 offset-md-1 add-todo-form">
+          <input class="form-control form-control-lg task-input" type="text" placeholder="Add todo task.." id="inputLarge">
+          <button class="btn btn-secondary submit-btn" type="submit">Submit</button>
+        </form>
+        <select class="custom-select mt-1 ml-2 col-md-2" >
+          <option value="all" selected="">All</option>
+          <option value="done">Done</option>
+          <option value="undone">Undone</option>
+          <option value="deleted">Deleted</option>
+        </select>
+      </div>
+    </footer>
+
+   
+    <script>
+      // prevent XSS
+      function escapeHtml(unsafe) {
+        return unsafe.replace(/&/g, "&amp;")
+             .replace(/</g, "&lt;")
+             .replace(/>/g, "&gt;")
+             .replace(/"/g, "&quot;")
+             .replace(/'/g, "&#039;");
+      }
+
+      function displayCategory() {
+        let category = $(".custom-select option:selected").val();
+        $.each($("li"), function(index, value) {
+          if (category === "all" && $(this).attr("status") !== "deleted") {
+            $(this).removeClass("hide");
+            return;
+          }
+
+          if ($(this).attr("status") === category){
+            $(this).removeClass("hide");
+          } else {
+            $(this).addClass("hide");
+          }
+        });
+      }
+
+      // show modal and msg
+      function showMsg(str){
+        let modal = $("#msgModal")
+        modal.find(".modal-body").text(str);
+        modal.modal('show');
+      }
+
+      // add todo
+      $(".add-todo-form").on('submit', (e) => {
+        e.preventDefault();
+        let text = $(".task-input");
+        let task = text.val();
+        if (task === "") {
+          showMsg("Todo cannot be blank");
+        } else {
+          $(".todos").append(`
+            <li class="list-group-item d-flex justify-content-between align-items-center" status="undone">
+              <div class="position-relative col-10 px-0">
+                <input type="checkbox" class="custom-check position-absolute">
+                <label class="form-check-label position-relative  pl-4 pr-2 todo">${escapeHtml(task)}
+                </label>
+              </div>
+              <div class="d-block todo-btns mx-1">
+                <button type="button" class="btn btn-outline-primary btn-sm my-1 edit-btn" edit=1>edit</button>
+                <button type="button" class="btn btn-outline-primary btn-sm my-1 delete-btn">delete</button>
+              </div>
+            </li>
+          `)
+        }
+        text.val('');
+        $(".submit-btn").blur();
+      });
+
+      // event delegation
+      $(".todos").click(function(evt) {
+        let target = $(evt.target);
+        let todoLi = target.closest("li");
+        let checkbox = todoLi.find("input");
+
+        // toogle done
+        if (target.hasClass("todo") && todoLi.attr("status") !== "deleted") {
+          target.toggleClass("done");
+          if (checkbox.attr("checked") == undefined) {
+            checkbox.attr("checked", "");
+            todoLi.attr("status", "done");
+          } else {
+            checkbox.removeAttr("checked");
+            todoLi.attr("status", "undone");
+          }
+        }
+
+        // click delete btn
+        if (target.hasClass("delete-btn")) {
+          todoLi.find("div").toggleClass("text-muted");
+          if (target.text() === "delete"){
+            target.text("undo");
+            todoLi.attr("status", "deleted");
+            checkbox.attr("disabled", "");
+            todoLi.find(".edit-btn").attr("disabled", "");
+          } else {
+            target.text("delete");
+            todoLi.attr("status", "undone");
+            todoLi.find("label").removeClass("done");
+            todoLi.find(".edit-btn").removeAttr("disabled");
+            checkbox.removeAttr("disabled");
+            checkbox.removeAttr("checked");
+          }
+          todoLi.addClass("hide");
+        }
+
+        // click edit btn
+        if (target.hasClass("edit-btn")) {
+          if (target.attr("edit") == 1){
+            let todoLabel = todoLi.find("label");
+            let text = todoLabel.text();
+            todoLabel.replaceWith(`
+              <textarea class="form-control mx-4 col-10">${escapeHtml(text)}</textarea>
+              `);
+            target.attr("edit", 0);
+            target.text("update");
+            checkbox.attr("disabled", "");
+          } else {
+            let todoText = todoLi.find("textarea");
+            let text = todoText.val();
+            todoText.replaceWith(`
+              <label class="form-check-label position-relative  pl-4 pr-2 todo">${escapeHtml(text)}
+              </label>
+              `);
+            target.attr("edit", 1);
+            target.text("edit");
+            checkbox.removeAttr("disabled");
+            checkbox.removeAttr("checked");
+            todoLi.attr("status", "undone");
+          }
+        }
+
+        displayCategory();
+      });
+
+      // click clear btn
+      $(".clear-btn").click( function(evt) {
+        $.each($("li"), function(index, value) {
+          if (value.getAttribute("status") !== "undone") {
+            $(this).remove();
+          }
+        });
+      });     
+
+      // select category
+      $(".custom-select").change(()=>{
+        displayCategory();
+      });
+
+      let params = (new URL(document.location)).searchParams;
+      let id = params.get('id');
+      
+      // click save btn
+      $(".save-btn").click(()=>{
+        let todos = JSON.stringify($("ul").html());
+        $.ajax({
+          url: "./api_save_todo.php",
+          method: "POST",
+          data: {
+            "id": id,
+            "content": todos
+          },
+          success: function(data) {
+            let json = JSON.parse(data);
+            showMsg(json.msg);
+            id = json.id;
+          }
+        });
+      });
+
+      $(document).ready(function(){
+        if (id !== null) {
+          $.ajax({
+            url: "./api_get_todo.php?id=" + id,
+            method: "GET",
+            success: function(data) {
+              let json = JSON.parse(data);
+              if (json.success) {
+                let todos = JSON.parse(json.content);
+                $("ul").html(todos);
+              } else {
+                showMsg(json.msg);
+                setTimeout(()=>
+                  {window.location.replace("./index.html");}, 1500);
+              }
+            }
+          });
+        }
+      });
+    </script>   
+  </body>
+</html>
