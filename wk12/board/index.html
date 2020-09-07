@@ -93,7 +93,7 @@
                   <div class="card-body px-1">
                     <div class="d-inline-flex justify-content-between col-md-12 pl-0">
                       <h5 class="card-title m-0 text-capitalize">${escapeHtml(post['nickname'])}</h5>
-                      <h6 class="card-subtitle text-muted m-0 mt-1">${t[0] + '/' + t[1] + '/' + t[2]}</h6>
+                      <h6 class="card-subtitle text-muted m-0 mt-1">${escapeHtml(t[0] + '/' + t[1] + '/' + t[2])}</h6>
                     </div>
                     <p class="card-text">${escapeHtml(post['content'])}</p>
                   </div>
