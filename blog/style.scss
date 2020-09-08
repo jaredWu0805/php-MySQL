@@ -15,6 +15,11 @@ $transition-normal: 0.3s;
   border: solid 1.5px $color;
 }
 
+@mixin hover_action() {
+	color: $theme-01;
+	border-color: $theme-01;
+}
+
 .hidden {
 	display: none;
 }
@@ -62,7 +67,8 @@ a {
 	transition: $transition-normal;
 
 	&:hover {
-		color: $theme-01;
+		@include hover_action();
+		border-color: none;
 	}
 }
 
@@ -83,10 +89,10 @@ a {
 	color: $theme-04;
 
 	&__desc {
-	position: absolute;
-	left: 50%;
-	top: 35%;
-	transform: translate(-55%, -50%);
+		position: absolute;
+		left: 50%;
+		top: 35%;
+		transform: translate(-55%, -50%);
 	}
 }
 
@@ -180,8 +186,7 @@ a {
     vertical-align: sub;
 
     &:hover {
-		color: $theme-01;
-		border-color: $theme-01;
+		@include hover_action();
 	}
 }
 
@@ -207,9 +212,8 @@ a {
 	transition: $transition-normal;
 
 	&:hover {
-		color: $theme-01;
-		border-color: $theme-01;
-	}
+		@include hover_action();
+	}	
 }
 
 button {
@@ -352,7 +356,6 @@ footer {
 	transition: $transition-normal;
 
 	&:hover{
-		color: $theme-01;
-		border-color: $theme-01;
+		@include hover_action();
 	}
 }
